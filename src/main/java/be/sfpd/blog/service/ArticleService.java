@@ -24,7 +24,7 @@ public class ArticleService {
     }
 
     public Article getArticleById(Long id) {
-        return MockDatabase.getArticleById(id);
+        return articles.get(id);
     }
 
     public Article addArticle(Article article) {
