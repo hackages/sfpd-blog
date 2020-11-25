@@ -27,8 +27,9 @@ public class ArticleService {
         return MockDatabase.getArticleById(id);
     }
 
-    public Article addMessage(Article article) {
+    public Article addArticle(Article article) {
         article.setId((long) (articles.size() + 1));
+        article.setCreatedDate(new Date());
         articles.put(article.getId(), article);
         return article;
     }

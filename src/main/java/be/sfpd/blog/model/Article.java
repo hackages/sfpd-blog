@@ -1,7 +1,6 @@
 package be.sfpd.blog.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @XmlRootElement
