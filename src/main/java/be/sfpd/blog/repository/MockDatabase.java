@@ -8,14 +8,14 @@ import java.util.Map;
 
 public class MockDatabase {
 
-    public static Map<Long, Article> articles = new HashMap<>();
-    public static Map<String, Profile> profiles = new HashMap<>();
+    private static final Map<Long, Article> articles = new HashMap<>();
+    private static final Map<String, Profile> profiles = new HashMap<>();
 
     public static Map<Long, Article> getArticles() {
         return articles;
     }
 
-    public static Map<String, Profile> getProfile() {
+    public static Map<String, Profile> getProfiles() {
         return profiles;
     }
 

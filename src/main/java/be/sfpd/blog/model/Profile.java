@@ -2,6 +2,8 @@ package be.sfpd.blog.model;
 
 public class Profile {
 
+    private Long id;
+
     private String name;
 
     private int age;
@@ -9,9 +11,18 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(String name, int age) {
+    public Profile(Long id, String name, int age) {
+        this.id = id;
         this.name = name;
         this.age = age;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

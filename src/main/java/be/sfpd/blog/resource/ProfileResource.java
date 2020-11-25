@@ -10,7 +10,7 @@ import java.util.List;
 @Path("profiles")
 public class ProfileResource {
 
-    ProfileService profileService = new ProfileService();
+    final ProfileService profileService = new ProfileService();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

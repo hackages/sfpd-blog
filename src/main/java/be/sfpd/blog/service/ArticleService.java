@@ -3,24 +3,22 @@ package be.sfpd.blog.service;
 import be.sfpd.blog.model.Article;
 import be.sfpd.blog.repository.MockDatabase;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ArticleService {
 
-    private Map<Long, Article> articles = MockDatabase.getArticles();
+    private final Map<Long, Article> articles = MockDatabase.getArticles();
 
     public ArticleService() {
-        Article article1 = new Article(1L, new Date(), "Hello world");
-        Article article2 = new Article(2L, new Date(), "Hello Jersey");
-        articles.put(1L, article1);
-        articles.put(2L, article2);
+        articles.put(1L, new Article(1L, LocalDateTime.now().minusDays(1), "Hello world"));
+        articles.put(2L, new Article(2L, LocalDateTime.now().minusHours(4), "Hello Jersey"));
     }
 
     public List<Article> getArticles() {
-        return articles.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(articles.values());
     }
 
     public Article getArticleById(Long id) {
@@ -29,20 +27,21 @@ public class ArticleService {
 
     public Article addArticle(Article article) {
         article.setId((long) (articles.size() + 1));
-        article.setCreatedDate(new Date());
+        article.setCreatedDate(LocalDateTime.now());
         articles.put(article.getId(), article);
         return article;
     }
 
     public Article updateArticle(Article article) {
-        if (article.getId() <= 0) {
+        if (article.getId() <= 0 && articles.get(article.getId()) == null) {
             return null;
         }
+        article.setCreatedDate(articles.get(article.getId()).getCreatedDate());
         articles.put(article.getId(), article);
         return article;
     }
 
-    public Article removeArticle(Long id) {
-        return articles.remove(id);
+    public void removeArticle(Long id) {
+        articles.remove(id);
     }
 }
