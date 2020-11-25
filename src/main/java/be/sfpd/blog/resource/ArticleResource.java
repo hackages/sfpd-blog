@@ -26,6 +26,10 @@ public class ArticleResource {
         return service.addArticle(article);
     }
 
+    // DELETE
+
+    // PUT
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)

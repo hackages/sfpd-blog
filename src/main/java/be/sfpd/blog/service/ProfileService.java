@@ -12,12 +12,20 @@ public class ProfileService {
     private Map<String, Profile> profiles = MockDatabase.getProfile();
 
     public ProfileService() {
-        Profile profile = new Profile(1L, "ghost", 37);
+        Profile profile = new Profile("ghost", 37);
         profiles.put("ghost", profile);
     }
 
     public List<Profile> getProfiles() {
         return new ArrayList(profiles.values());
+    }
+
+    public Profile addProfile(Profile profile) {
+        if (profiles.get(profile.getName()) != null) {
+            return null;
+        }
+        profiles.put(profile.getName(), profile);
+        return profile;
     }
 
     public Profile getProfileByName(String name) {
