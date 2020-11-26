@@ -1,6 +1,10 @@
 package be.sfpd.blog.model;
 
+import be.sfpd.blog.adapter.LocalDateTimeAdapter;
+
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @XmlRootElement
@@ -8,14 +12,14 @@ public class Article {
 
     private Long id;
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     private String body;
 
     public Article() {
     }
 
-    public Article(Long id, Date createdDate, String body) {
+    public Article(Long id, LocalDateTime createdDate, String body) {
         this.id = id;
         this.createdDate = createdDate;
         this.body = body;
@@ -29,11 +33,12 @@ public class Article {
         this.id = id;
     }
 
-    public Date getCreatedDate() {
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
