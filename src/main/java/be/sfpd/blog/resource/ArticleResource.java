@@ -6,6 +6,7 @@ import be.sfpd.blog.service.ArticleService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("articles")
@@ -16,8 +17,16 @@ public class ArticleResource {
 
     @GET
     public List<Article> getAllArticle(@QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("year") int year) {
-
-        return service.getArticles();
+        List<Article> articles = new ArrayList<>();
+        if(year > 0) {
+            articles.addAll(service.getArticlesByYear(year));
+        } else {
+            articles.addAll(service.getArticles());
+        }
+        if(offset >= 0 && limit > 0) {
+            return service.getMessagesPaginated(offset, limit, articles);
+        }
+        return articles;
     }
 
     @GET

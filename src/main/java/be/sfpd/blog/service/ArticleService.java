@@ -15,7 +15,7 @@ public class ArticleService {
 
     public ArticleService() {
         articles.put(1L, new Article(1L, LocalDateTime.now().minusDays(1), "Hello world"));
-        articles.put(2L, new Article(2L, LocalDateTime.now().minusHours(4), "Hello Jersey"));
+        articles.put(2L, new Article(2L, LocalDateTime.now().minusYears(1), "Hello Jersey"));
     }
 
     public List<Article> getArticles() {
@@ -27,6 +27,9 @@ public class ArticleService {
     }
 
     public List<Article> getMessagesPaginated(int start, int size, List<Article> articlesToPaginate) {
+        if (articlesToPaginate == null || articlesToPaginate.isEmpty()) {
+            articlesToPaginate.addAll(articles.values());
+        }
         if (start + size > articlesToPaginate.size()) {
             return new ArrayList<>();
         }
@@ -46,7 +49,7 @@ public class ArticleService {
     }
 
     public Article updateArticle(Article article) {
-        if (article.getId() <= 0 && articles.get(article.getId()) == null) {
+        if (article.getId() <= 0 || articles.get(article.getId()) == null) {
             return null;
         }
         article.setCreatedDate(articles.get(article.getId()).getCreatedDate());
