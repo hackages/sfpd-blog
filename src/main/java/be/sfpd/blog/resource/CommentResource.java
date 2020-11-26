@@ -23,6 +23,7 @@ public class CommentResource {
         return commentService.getCommentById(articleId, commentId);
     }
 
+    // Manage to return Status code 201 for this endpoint
     @POST
     public Comment addComment(@PathParam("articleId") Long articleId, Comment comment) {
         return commentService.addComment(articleId, comment);

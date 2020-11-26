@@ -6,7 +6,12 @@ import be.sfpd.blog.resource.bean.ArticleFilterBean;
 import be.sfpd.blog.service.ArticleService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +39,11 @@ public class ArticleResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Article createArticle(Article article) {
-        return service.addArticle(article);
+    public Response createArticle(Article article, @Context UriInfo uriInfo) throws URISyntaxException {
+        Article newArticle = service.addArticle(article);
+        String newId = String.valueOf(newArticle.getId());
+        URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+        return Response.created(uri).entity(newArticle).build();
     }
 
     @PUT
