@@ -1,13 +1,11 @@
 package be.sfpd.blog.service;
 
 import be.sfpd.blog.model.Article;
+import be.sfpd.blog.model.Comment;
 import be.sfpd.blog.repository.MockDatabase;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ArticleService {
@@ -17,8 +15,13 @@ public class ArticleService {
     public ArticleService() {
         Article article1 = new Article(1L, LocalDateTime.now(), "Hello world");
         Article article2 = new Article(2L, LocalDateTime.now().minusYears(1), "Hello Jersey");
+        Comment comment = new Comment(1L, "Cool ", LocalDateTime.now(), "me");
+        Map<Long, Comment> comments = new HashMap<>();
+        comments.put(1L, comment);
+        article1.setComments(comments);
         articles.put(1L, article1);
         articles.put(2L, article2);
+
     }
 
     public List<Article> getArticles() {

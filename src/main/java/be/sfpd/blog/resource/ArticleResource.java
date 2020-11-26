@@ -57,5 +57,10 @@ public class ArticleResource {
     public Article getArticleById(@PathParam("id") Long articleId) {
         return service.getArticleById(articleId);
     }
+
+    @Path("/{articleId}/comments")
+    public CommentResource getCommentsByArticle(@PathParam("articleId") Long id) {
+        return new CommentResource();
+    }
     
 }
