@@ -2,6 +2,7 @@ package be.sfpd.blog.resource;
 
 
 import be.sfpd.blog.model.Article;
+import be.sfpd.blog.resource.beans.ArticleFilterBean;
 import be.sfpd.blog.service.ArticleService;
 
 import javax.ws.rs.*;
@@ -16,15 +17,15 @@ public class ArticleResource {
     private final ArticleService service = new ArticleService();
 
     @GET
-    public List<Article> getAllArticle(@QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("year") int year) {
+    public List<Article> getAllArticle(@BeanParam ArticleFilterBean articleFilterBean) {
         List<Article> articles = new ArrayList<>();
-        if(year > 0) {
-            articles.addAll(service.getArticlesByYear(year));
+        if(articleFilterBean.getYear() > 0) {
+            articles.addAll(service.getArticlesByYear(articleFilterBean.getYear()));
         } else {
             articles.addAll(service.getArticles());
         }
-        if(offset >= 0 && limit > 0) {
-            return service.getMessagesPaginated(offset, limit, articles);
+        if(articleFilterBean.getOffset() >= 0 && articleFilterBean.getLimit() > 0) {
+            return service.getMessagesPaginated(articleFilterBean.getOffset(), articleFilterBean.getLimit(), articles);
         }
         return articles;
     }
@@ -54,5 +55,9 @@ public class ArticleResource {
         service.removeArticle(id);
     }
 
+    @Path("/{articleId}/comments")
+    public CommentResource getCommentResource() {
+        return new CommentResource();
+    }
 
 }

@@ -3,8 +3,11 @@ package be.sfpd.blog.model;
 import be.sfpd.blog.adapter.LocalDateTimeAdapter;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @XmlRootElement
 public class Article {
@@ -14,6 +17,8 @@ public class Article {
     private LocalDateTime createdDate;
 
     private String body;
+
+    private Map<Long, Comment> comments = new HashMap<>();
 
     public Article() {
     }
@@ -47,5 +52,14 @@ public class Article {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    @XmlTransient
+    public Map<Long, Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Map<Long, Comment> comments) {
+        this.comments = comments;
     }
 }
