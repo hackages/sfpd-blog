@@ -22,7 +22,14 @@ public class CommentService {
     }
 
     public Comment addComment(Long articleId, Comment comment) {
-        // implement this method
-        return null;
+        Map<Long, Comment> comments = articles.get(articleId).getComments();
+        comment.setId((long) (comments.size() + 1));
+        comments.put(comment.getId(), comment);
+        return comment;
+    }
+
+    public void removeComment(Long articleId, Long commentId) {
+        Map<Long, Comment> comments = articles.get(articleId).getComments();
+        comments.remove(commentId);
     }
 }

@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @XmlRootElement
@@ -17,7 +18,7 @@ public class Article {
 
     private String body;
 
-    private Map<Long, Comment> comments;
+    private Map<Long, Comment> comments = new HashMap<>();
 
     public Article() {
     }
