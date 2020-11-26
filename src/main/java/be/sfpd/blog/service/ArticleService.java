@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ArticleService {
 
@@ -23,6 +24,18 @@ public class ArticleService {
 
     public Article getArticleById(Long id) {
         return articles.get(id);
+    }
+
+    public List<Article> getMessagesPaginated(int start, int size, List<Article> articlesToPaginate) {
+        if (start + size > articlesToPaginate.size()) {
+            return new ArrayList<>();
+        }
+        return articlesToPaginate.subList(start, start + size);
+    }
+
+    public List<Article> getArticlesByYear(int year) {
+        ArrayList<Article> list = new ArrayList<>(articles.values());
+        return list.stream().filter(article -> article.getCreatedDate().getYear() == year).collect(Collectors.toList());
     }
 
     public Article addArticle(Article article) {

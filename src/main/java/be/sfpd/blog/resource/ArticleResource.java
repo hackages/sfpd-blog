@@ -15,7 +15,8 @@ public class ArticleResource {
     private final ArticleService service = new ArticleService();
 
     @GET
-    public List<Article> getAllArticle() {
+    public List<Article> getAllArticle(@QueryParam("offset") int offset, @QueryParam("limit") int limit, @QueryParam("year") int year) {
+
         return service.getArticles();
     }
 
