@@ -35,14 +35,16 @@ public class ArticleService {
     }
 
     public Article updateArticle(Article article) {
-        if (article.getId() <= 0) {
+        if (article.getId() <= 0 || articles.get(article.getId()) == null) {
             return null;
         }
+        Article dbArticle = articles.get(article.getId());
+        article.setCreatedDate(dbArticle.getCreatedDate());
         articles.put(article.getId(), article);
         return article;
     }
 
-    public Article removeArticle(Long id) {
-        return articles.remove(id);
+    public void removeArticle(Long id) {
+        articles.remove(id);
     }
 }
