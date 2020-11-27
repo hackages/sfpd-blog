@@ -64,13 +64,25 @@ public class ArticleResource {
     public Response getArticleById(@PathParam("id") Long articleId, @Context UriInfo uriInfo) {
         try {
             Article newArticle = service.getArticleById(articleId);
-           newArticle.addLink(getUriForSelf(uriInfo, newArticle.getId()), "self");
-
-           // add relation to profile for the author http://localhost:8080/sfpd-blog/webapi/1/profile/authorname
 
 
-            newArticle.addLink(getUriForComments(uriInfo, articleId), "comments");
-            return Response.ok(newArticle).build();
+            newArticle.addLink(getUriForProfile(uriInfo, newArticle.getAuthor()), "authorProfile");
+
+            Link self = Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("GET").build();
+
+            URI commentsURI = uriInfo
+                    .getBaseUriBuilder()
+                    .path(ArticleResource.class)
+                    .path(ArticleResource.class, "getCommentsByArticle")
+                    .resolveTemplate("articleId", articleId)
+                    .build();
+
+            Link comments = Link.fromUri(commentsURI).type("GET").rel("comments").build();
+
+            newArticle.addLink(self.getUri().toString(), self.getRel());
+            newArticle.addLink(comments.getUri().toString(), comments.getRel());
+
+            return Response.ok(newArticle).links(self, comments).build();
         } catch (DataNotFoundException ex) {
             ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), "SFPD_NOT_FOUND");
             return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
@@ -90,8 +102,19 @@ public class ArticleResource {
     private String getUriForComments(UriInfo uriInfo, Long articleId) {
         String uri = uriInfo
                 .getBaseUriBuilder()
+                .path(ArticleResource.class)
                 .path(ArticleResource.class, "getCommentsByArticle")
                 .resolveTemplate("articleId", articleId)
+                .build()
+                .toString();
+        return uri;
+    }
+
+    private String getUriForProfile(UriInfo uriInfo, String authorName) {
+        String uri = uriInfo
+                .getBaseUriBuilder()
+                .path(ProfileResource.class)
+                .path(authorName)
                 .build()
                 .toString();
         return uri;

@@ -25,6 +25,9 @@ public class CommentResource {
         return commentService.getAllComments(id);
     }
 
+
+    // Return the comment with Links 
+
     @GET
     @Path("/{commentId}")
     public Response getCommentById(@PathParam("articleId") Long articleId, @PathParam("commentId") Long commentId) {

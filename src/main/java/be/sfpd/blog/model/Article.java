@@ -24,7 +24,7 @@ public class Article {
 
     private Map<Long, Comment> comments = new HashMap<>();
 
-    private List<LinkList> linkListArrayList = new ArrayList<>();
+    private List<Link> links = new ArrayList<>();
 
     public Article() {
     }
@@ -78,18 +78,18 @@ public class Article {
         this.comments = comments;
     }
 
-    public List<LinkList> getLinkArrayList() {
-        return linkListArrayList;
+    public List<Link> getLinks() {
+        return links;
     }
 
-    public void setLinkArrayList(List<LinkList> linkListArrayList) {
-        this.linkListArrayList = linkListArrayList;
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 
     public void addLink(String url, String rel) {
-        LinkList linkList = new LinkList();
-        linkList.setLink(url);
-        linkList.setRel(rel);
-        linkListArrayList.add(linkList);
+        Link link = new Link();
+        link.setLink(url);
+        link.setRel(rel);
+        links.add(link);
     }
 }

@@ -3,7 +3,7 @@ package be.sfpd.blog.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class LinkList {
+public class Link {
 
     private String link;
 
