@@ -44,7 +44,8 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
-    public Article getArticleById(Long id) {
+    //here
+    public Article getArticleById(Long id) throws DataNotFoundException {
         Article article = articles.get(id);
         if (article == null) {
             throw new DataNotFoundException("Data not exist");
@@ -59,6 +60,7 @@ public class ArticleService {
         return article;
     }
 
+    //here
     public Article updateArticle(Article article) {
         if (article.getId() <= 0 || articles.get(article.getId()) == null) {
             return null;

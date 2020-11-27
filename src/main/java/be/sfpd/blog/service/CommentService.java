@@ -14,6 +14,7 @@ public class CommentService {
 
     private Map<Long, Article> articles = MockDatabase.getArticles();
 
+    // Add exception for possible NPE
     public List<Comment> getAllComments(Long articleId) {
         Map<Long, Comment> comments = articles.get(articleId).getComments();
         return new ArrayList<>(comments.values());
@@ -35,6 +36,7 @@ public class CommentService {
         return articles.get(articleId).getComments().get(commentId);
     }
 
+    // Here also
     public Comment addComment(Long articleId, Comment comment) {
         Map<Long, Comment> comments = articles.get(articleId).getComments();
         comment.setId((long) (comments.size() + 1));
@@ -42,6 +44,7 @@ public class CommentService {
         return comment;
     }
 
+    // Here alse
     public void removeComment(Long articleId, Long commentId) {
         Map<Long, Comment> comments = articles.get(articleId).getComments();
         comments.remove(commentId);
