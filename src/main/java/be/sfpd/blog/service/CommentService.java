@@ -1,5 +1,7 @@
 package be.sfpd.blog.service;
 
+import be.sfpd.blog.exception.DataNotFoundException;
+import be.sfpd.blog.exception.DatabaseException;
 import be.sfpd.blog.model.Article;
 import be.sfpd.blog.model.Comment;
 import be.sfpd.blog.repository.MockDatabase;
@@ -18,6 +20,15 @@ public class CommentService {
     }
 
     public Comment getCommentById(Long articleId, Long commentId) {
+        Article article = articles.get(articleId);
+        if (article == null) {
+            throw new DataNotFoundException("article is missing");
+        }
+        Map<Long, Comment> comments = article.getComments();
+        if (comments == null) {
+            //manage your exception
+            throw new DatabaseException();
+        }
         return articles.get(articleId).getComments().get(commentId);
     }
 
