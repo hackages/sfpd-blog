@@ -1,6 +1,7 @@
 package be.sfpd.blog.resource;
 
 import be.sfpd.blog.exception.DataNotFoundException;
+import be.sfpd.blog.exception.DatabaseException;
 import be.sfpd.blog.model.Comment;
 import be.sfpd.blog.model.ErrorMessage;
 import be.sfpd.blog.service.CommentService;
@@ -34,8 +35,11 @@ public class CommentResource {
             Response response = Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
             throw new NotFoundException(response);
             //throw new WebApplicationException(ex.getMessage(), response);
+        } catch (DatabaseException ex) {
+            ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), "SFPD_What");
+            Response response = Response.serverError().entity(errorMessage).build();
+            throw new ServerErrorException(response);
         }
-        // catch the right exception
     }
 
     @POST

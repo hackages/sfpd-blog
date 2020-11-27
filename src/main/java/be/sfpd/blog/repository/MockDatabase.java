@@ -1,5 +1,6 @@
 package be.sfpd.blog.repository;
 
+import be.sfpd.blog.exception.DatabaseException;
 import be.sfpd.blog.model.Article;
 import be.sfpd.blog.model.Profile;
 
@@ -11,7 +12,7 @@ public class MockDatabase {
     public static Map<Long, Article> articles = new HashMap<>();
     public static Map<String, Profile> profiles = new HashMap<>();
 
-    public static Map<Long, Article> getArticles() {
+    public static Map<Long, Article> getArticles() throws DatabaseException {
         return articles;
     }
 

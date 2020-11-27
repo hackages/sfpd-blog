@@ -26,8 +26,11 @@ public class CommentService {
         }
         Map<Long, Comment> comments = article.getComments();
         if (comments == null) {
-            //manage your exception
-            throw new DatabaseException();
+            throw new DatabaseException("Something wrong happen");
+        }
+        Comment comment = comments.get(commentId);
+        if (comment == null){
+            throw new DatabaseException("comment is missing");
         }
         return articles.get(articleId).getComments().get(commentId);
     }

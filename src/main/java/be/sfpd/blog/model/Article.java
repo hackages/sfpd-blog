@@ -18,7 +18,7 @@ public class Article {
 
     private String body;
 
-    private Map<Long, Comment> comments;
+    private Map<Long, Comment> comments = new HashMap<>();
 
     public Article() {
     }
