@@ -8,10 +8,7 @@ import be.sfpd.blog.resource.bean.ArticleFilterBean;
 import be.sfpd.blog.service.ArticleService;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -64,14 +61,40 @@ public class ArticleResource {
 
     @GET
     @Path("/{id}")
-    public Response getArticleById(@PathParam("id") Long articleId) {
+    public Response getArticleById(@PathParam("id") Long articleId, @Context UriInfo uriInfo) {
         try {
             Article newArticle = service.getArticleById(articleId);
+           newArticle.addLink(getUriForSelf(uriInfo, newArticle.getId()), "self");
+
+           // add relation to profile for the author http://localhost:8080/sfpd-blog/webapi/1/profile/authorname
+
+
+            newArticle.addLink(getUriForComments(uriInfo, articleId), "comments");
             return Response.ok(newArticle).build();
         } catch (DataNotFoundException ex) {
             ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), "SFPD_NOT_FOUND");
             return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
         }
+    }
+
+    private String getUriForSelf(UriInfo uriInfo, Long articleId) {
+        String uri = uriInfo
+                .getBaseUriBuilder()
+                .path(ArticleResource.class)
+                .path(Long.toString(articleId))
+                .build()
+                .toString();
+        return uri;
+    }
+
+    private String getUriForComments(UriInfo uriInfo, Long articleId) {
+        String uri = uriInfo
+                .getBaseUriBuilder()
+                .path(ArticleResource.class, "getCommentsByArticle")
+                .resolveTemplate("articleId", articleId)
+                .build()
+                .toString();
+        return uri;
     }
 
     @Path("/{articleId}/comments")

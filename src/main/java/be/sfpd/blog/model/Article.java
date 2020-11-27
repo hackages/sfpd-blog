@@ -6,7 +6,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @XmlRootElement
@@ -14,17 +16,22 @@ public class Article {
 
     private Long id;
 
+    private String author;
+
     private LocalDateTime createdDate;
 
     private String body;
 
     private Map<Long, Comment> comments = new HashMap<>();
 
+    private List<LinkList> linkListArrayList = new ArrayList<>();
+
     public Article() {
     }
 
-    public Article(Long id, LocalDateTime createdDate, String body) {
+    public Article(Long id, String author, LocalDateTime createdDate, String body) {
         this.id = id;
+        this.author = author;
         this.createdDate = createdDate;
         this.body = body;
     }
@@ -46,6 +53,14 @@ public class Article {
         this.createdDate = createdDate;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public String getBody() {
         return body;
     }
@@ -61,5 +76,20 @@ public class Article {
 
     public void setComments(Map<Long, Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<LinkList> getLinkArrayList() {
+        return linkListArrayList;
+    }
+
+    public void setLinkArrayList(List<LinkList> linkListArrayList) {
+        this.linkListArrayList = linkListArrayList;
+    }
+
+    public void addLink(String url, String rel) {
+        LinkList linkList = new LinkList();
+        linkList.setLink(url);
+        linkList.setRel(rel);
+        linkListArrayList.add(linkList);
     }
 }
