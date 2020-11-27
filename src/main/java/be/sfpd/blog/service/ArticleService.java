@@ -1,5 +1,6 @@
 package be.sfpd.blog.service;
 
+import be.sfpd.blog.exception.DataNotFoundException;
 import be.sfpd.blog.model.Article;
 import be.sfpd.blog.repository.MockDatabase;
 
@@ -44,7 +45,11 @@ public class ArticleService {
     }
 
     public Article getArticleById(Long id) {
-        return articles.get(id);
+        Article article = articles.get(id);
+        if (article == null) {
+            throw new DataNotFoundException("Data not exist");
+        }
+        return article;
     }
 
     public Article addArticle(Article article) {

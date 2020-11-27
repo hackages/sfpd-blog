@@ -4,7 +4,11 @@ import be.sfpd.blog.model.Comment;
 import be.sfpd.blog.service.CommentService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,10 +27,11 @@ public class CommentResource {
         return commentService.getCommentById(articleId, commentId);
     }
 
-    // Manage to return Status code 201 for this endpoint
     @POST
-    public Comment addComment(@PathParam("articleId") Long articleId, Comment comment) {
-        return commentService.addComment(articleId, comment);
+    public Response addComment(@PathParam("articleId") Long articleId, Comment comment, @Context UriInfo uriInfo) {
+        Comment newComment = commentService.addComment(articleId, comment);
+        URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(comment.getId())).build();
+        return Response.created(uri).entity(newComment).build();
     }
 
     @DELETE

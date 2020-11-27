@@ -1,7 +1,9 @@
 package be.sfpd.blog.resource;
 
 
+import be.sfpd.blog.exception.DataNotFoundException;
 import be.sfpd.blog.model.Article;
+import be.sfpd.blog.model.ErrorMessage;
 import be.sfpd.blog.resource.bean.ArticleFilterBean;
 import be.sfpd.blog.service.ArticleService;
 
@@ -62,8 +64,14 @@ public class ArticleResource {
 
     @GET
     @Path("/{id}")
-    public Article getArticleById(@PathParam("id") Long articleId) {
-        return service.getArticleById(articleId);
+    public Response getArticleById(@PathParam("id") Long articleId) {
+        try {
+            Article newArticle = service.getArticleById(articleId);
+            return Response.ok(newArticle).build();
+        } catch (DataNotFoundException ex) {
+            ErrorMessage errorMessage = new ErrorMessage(ex.getMessage(), "SFPD_NOT_FOUND");
+            return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
+        }
     }
 
     @Path("/{articleId}/comments")
